@@ -6,7 +6,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 from attendance.views import admin_dashboard      # your custom admin dashboard (attendance)
-from main.views import dashboard_admin           # another custom admin dashboard (main)
+from main.views import dashboard_admin 
+from apps.attendance.views import capture_attendance
+          # another custom admin dashboard (main)
 
 urlpatterns = [
     # 1) Built-in Django admin
@@ -24,4 +26,7 @@ urlpatterns = [
 
     # 5) Redirect root URL to login page
     path('', RedirectView.as_view(url='/accounts/login/', permanent=False)),
+    
+    path('capture/', capture_attendance, name='capture_attendance'),
+
 ]
