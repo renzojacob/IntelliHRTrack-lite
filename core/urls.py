@@ -15,8 +15,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.views.generic import RedirectView
+from attendance.views import admin_dashboard
+
 
 urlpatterns = [
+    # 1) Keep built-in admin on /admin/
     path('admin/', admin.site.urls),
+
+    # 2) Put your custom auth pages under /accounts/
+    path('accounts/', include('accounts.urls')),
+
+    # 3) Include attendance app URLs (these define employee/dashboard/ etc.)
+    path('', include('attendance.urls')),
+
+    # 4) Redirect the empty root URL to the login page
+    path('', RedirectView.as_view(url='/accounts/login/', permanent=False)),
+        path("admin/dashboard/", admin_dashboard, name="admin-dashboard"),
+
 ]
+
